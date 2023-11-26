@@ -1,33 +1,32 @@
+import { greeting } from './module01.mjs';
+
 console.log('index.js loaded');
 
-const store = [
-  {
-    product: "Apple",
-    price: 1.99,
-    quantity: 5
-  },
+const API_BASE_URL = 'https://api.noroff.dev/api/v1';
 
-  {
-    product: "Banana",
-    price: 0.99,
-    quantity: 12
-  },
-
-  {
-    product: "Watermelon",
-    price: 3.99,
-    quantity: 16
-  } 
-];
-
-function findProduct(product) {
-  return product.product === 'Apple';
-}
-const search = store.findIndex(findProduct);
-
-if (search !== -1) {
-  console.log(`${search.product} found at index ${search}`);
-} else {
-  console.log("Product not found");
+async function registerUser (url, userData) {
+  try{
+    const postData = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    };
+    const response = await fetch(url, postData);
+    const json = await response.json();
+    console.log(json);
+    } catch (err) {
+      console.log(err);
+    }
 }
 
+const userToRegister = {
+  name: 'John_Doe_one',
+  email: 'John_Doe_one@noroff.no',
+  password: 'Doe12345',
+};
+
+const registerURL = `${API_BASE_URL}/social/auth/register`;
+
+registerUser(registerURL, userToRegister);
